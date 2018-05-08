@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+            let user;
+            fetch("https://reqres.in/api/users?page=4")
+            .then(res => {
+                console.log(res);
+                
+                if (res.ok)
+                    return res.json();
+            })
+            .then(data => { let userID = data.data[1].id;
+                    fetch("https://reqres.in/api/users/"+userID)
+                    .then(res =>{
+                        return res.json();
+                    }) 
+                    .then(data =>{
+                        user = data;
+                    })
+                    .then(()=>{
+                        document.getElementById("user_avatar").src = user.data.avatar;
+                    })
+                    .catch((e)=>{
+                        console.log(e,"ERROR");
+                    })
+                })
+            .catch((() => { console.log("error in request") }));
+    </script>
+</head>
+
+<body>
+    <img src="" alt="Avatar" id="user_avatar">
+</body>
+
+</html>
